@@ -25,6 +25,8 @@ function display(){
   });
 }
 
+
+//"buys the" item and checks to see if there is enough.
 function buying(item, amount){
   connection.query("SELECT * FROM Products WHERE item_id =" + item, {
   }, function(err, res) {
@@ -41,7 +43,7 @@ function buying(item, amount){
 }
 
 function update(item, amount){
-  connection.query("UPDATE products SET ? WHERE ?",[{
+  connection.query("UPDATE Products SET ? WHERE ?",[{
     stock_quantity: amount
   }, {
     item_id: item

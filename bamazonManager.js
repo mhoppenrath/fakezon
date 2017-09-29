@@ -15,7 +15,7 @@ var connection = mysql.createConnection({
   database: "fakazon"
 });
 
-
+//
 function display(){
   connection.query("SELECT * FROM Products", {
   }, function(err, res) {
@@ -64,24 +64,29 @@ function adding(){
     var item = parseInt(response.item);
     var amount = parseInt(response.amount);
     var newStock;
-    connection.query("SELECT * FROM products WHERE ?", [{
+    connection.query("SELECT * FROM Products WHERE ?", [{
       item_id: item
     }], function(err,res){
       newStock = res[0].stock_quantity + amount;
-      console.log(newStock);
-    })
-    connection.query("UPDATE products SET ? WHERE ?",[{
-      stock_quantity: newStock
-      }, {
-        item_id: item
-      }], function(err, res) {});
-    connection.query("SELECT * FROM Products WHERE ?", [{
-      item_id:item
-      }],function(err,res) {
-        console.log("\nID: "+ res[0].item_id + " Product: " + res[0].product_name + " Department: "+res[0].department_name + " Price: $" + res[0].price + " Items left: " + res[0].stock_quantity)
-      });
+      connection.query("UPDATE Products SET ? WHERE ?",[{
+          stock_quantity: newStock
+        }, {
+          item_id: item
+        }], function(err, res) {
+          connection.query("SELECT * FROM Products WHERE ?", [{
+            item_id:item
+            }],function(err,res) {
+              console.log("\nID: "+ res[0].item_id + " Product: " + res[0].product_name + " Department: "+res[0].department_name + " Price: $" + res[0].price + " Items left: " + res[0].stock_quantity)
+            });
+          });
+        });
     });
+
+
+
 }
+
+//
 function addItem(){
   inquirer.prompt([{
     type: "input",
@@ -102,15 +107,15 @@ function addItem(){
   }]).then(function(res){
     var amount = parseInt(res.Stock);
     var pricing = parseInt(res.price);
-    connection.query("INSERT INTO products SET ?",[{
-        product_name: res.itemName
-      }, {
-        department_name: res.department
-      }, {
-        price: pricing
-      },{
-        stock_quantity:amount
-      }], function(err, res) {});
+//    connection.query("products (product_name, department_name, price, stock_quantity) VALUE (?,?,?,?)",[{
+//        product_name: res.itemName
+//      }, {
+//        department_name: res.department
+//      }, {
+//        price: pricing
+//      },{
+//        stock_quantity:amount
+//      }], function(err, res) {});
   })
 }
 
