@@ -94,7 +94,7 @@ function addItem(){
     name: "itemName"
   }, {
     type: "input",
-    message: "What Department do you want it in",
+    message: "What Department do you want it in?",
     name: "department"
   }, {
     type: "input",
@@ -107,15 +107,13 @@ function addItem(){
   }]).then(function(res){
     var amount = parseInt(res.Stock);
     var pricing = parseInt(res.price);
-//    connection.query("products (product_name, department_name, price, stock_quantity) VALUE (?,?,?,?)",[{
-//        product_name: res.itemName
-//      }, {
-//        department_name: res.department
-//      }, {
-//        price: pricing
-//      },{
-//        stock_quantity:amount
-//      }], function(err, res) {});
+    console.log(res);
+    connection.query("INSERT INTO Products SET ?",[{
+      product_name: res.itemName,
+      department_name: res.department,
+      price: pricing,
+      stock_quantity:amount,
+     }], function(err, res) {});
   })
 }
 
